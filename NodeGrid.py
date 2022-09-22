@@ -27,6 +27,13 @@ class Node():
     def _setGoal(self):
         self.end = True
 
+    def screenCoord(self):
+        x0 = (self.abs * self.size) - Node.NODE_SIZE_MOD* self.size /2 + self.padding
+        x1 = x0 + self.size * Node.NODE_SIZE_MOD
+        y0 = (self.ord * self.size) - Node.NODE_SIZE_MOD* self.size /2 + self.padding
+        y1 = y0 + self.size * Node.NODE_SIZE_MOD
+        return x0,y0,x1,y1
+
     def draw(self):
         if self.master != None:
             bcol = "black"
@@ -43,10 +50,7 @@ class Node():
             else:
                 col = Node.EMPTY_COLOR
                 
-            x0 = (self.abs * self.size) - Node.NODE_SIZE_MOD* self.size /2 + self.padding
-            x1 = x0 + self.size * Node.NODE_SIZE_MOD
-            y0 = (self.ord * self.size) - Node.NODE_SIZE_MOD* self.size /2 + self.padding
-            y1 = y0 + self.size * Node.NODE_SIZE_MOD
+            x0,y0,x1,y1 = self.screenCoord()
 
             self.master.create_oval(x0, y0, x1, y1, fill = col, outline = bcol)
 
@@ -80,6 +84,29 @@ class Obstacle():
                 self.master.create_line(x0, y0, x1, y1)
                 self.master.create_line(x0, y1, x1, y0)
 
+class PathSegment():
+    LINE_COLOR = "magenta"
+
+    def __init__(self, master, p0, p1, size, padding):
+        self.master = master
+        self.abs, self.ord = p0
+        self.abs2, self.ord2 = p1
+        self.size = size
+        self.padding = padding
+        self.filled = False
+
+    def screenCoord(self):
+        x0 = (self.abs * self.size) + self.padding
+        x1 = (self.abs2 * self.size) + self.padding
+        y0 = (self.ord * self.size) + self.padding
+        y1 = (self.ord2 * self.size) + self.padding
+        return x0,y0,x1,y1
+
+    def draw(self):
+        if self.master != None:
+            x0,y0,x1,y1 = self.screenCoord()
+            self.master.create_line(x0,y0,x1,y1, fill = PathSegment.LINE_COLOR, tags = ("pathsegment"))
+            
 
 class Grid(Canvas):
     def __init__(self,master, rowNumber, columnNumber, cellSize, padding, *args, **kwargs):
@@ -97,6 +124,7 @@ class Grid(Canvas):
             self.nodes.append(line)
 
         self.obstacles = []
+        self.paths = []
         self.robs = []
         for row in range(rowNumber):
             line = []
@@ -111,7 +139,6 @@ class Grid(Canvas):
         self.selected = None
         self.start = None
         self.end = None
-        self.startp = None
 
     def draw(self):
         for row in self.obstacles:
@@ -136,7 +163,6 @@ class Grid(Canvas):
         self.selected = cell
         self.selected._toggle()
         self.selected.draw()
-        print(lineOfSight(self.startp, (col,row), self.robs))
 
     def fillObstacle(self, row, col):
         self.obstacles[row][col].filled = True
@@ -146,6 +172,7 @@ class Grid(Canvas):
     def clearObstacle(self, row, col):
         self.obstacles[row][col].filled = False
         self.obstacles[row][col].draw()
+        self.robs.remove((row,col))
 
     def setStart(self, row, col):
         if self.start != None:
@@ -154,7 +181,6 @@ class Grid(Canvas):
         self.nodes[row][col].start = True
         self.nodes[row][col].draw()
         self.start = self.nodes[row][col]
-        self.startp = (col,row)
         
     def setEnd(self, row, col):
         if self.end != None:
@@ -163,6 +189,16 @@ class Grid(Canvas):
         self.nodes[row][col].end = True
         self.nodes[row][col].draw()
         self.end = self.nodes[row][col]
+
+    def addPath(self, p0, p1):
+        path = PathSegment(self, p0, p1, self.cellSize, self.padding)
+        self.paths.append(path)
+        path.draw()
+        
+
+    def removePath(self, p0, p1):
+        self.paths = [x for x in self.paths if x.p0 != p0 and x.p1 != p1]
+        
     
 
 def loadMap(mapFile):

@@ -24,9 +24,11 @@ def loadMap(mapFile):
             if val == 1:
                 grid.fillObstacle(row - 1, col - 1)
                 obstacles.append((row,col))
-        app.mainloop()
+        
 
+    
     print(lineOfSight((1,3), (3,3), obstacles))
+    app.mainloop()
             
             
 if __name__ == "__main__" :

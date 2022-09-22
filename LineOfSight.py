@@ -4,11 +4,8 @@ def lineOfSight(p0, p1, obstacleGrid):
     sx = 1
     y0,x0 = p0
     y1,x1 = p1
-    print((x0,y0),(x1,y1))
     dy = y1 - y0
     dx = x1 - x0
-    print(dx,dy)
-    print(obstacleGrid)
     
     if dy < 0:
         dy = -dy
