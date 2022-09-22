@@ -21,4 +21,6 @@ class Node:
     
     def change_parent(self, parent):
         self.parent = parent
-
+    
+    def compare_nodes(self, other_node):
+        return (self.x_coordinate == other_node.x_coordinate and self.y_coordinate == other_node.y_coordinate)
