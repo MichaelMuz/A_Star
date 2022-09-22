@@ -5,10 +5,10 @@ class Grid:
         self.x_size = x_size
         self.y_size = y_size
         self.terrain = []
-        for _ in range(y_size):
+        for outside_array in range(y_size):
             temp = []
-            for __ in range(x_size):
-                temp.append(Node())
+            for inner_array in range(x_size):
+                temp.append(Node(inner_array, outside_array))
             self.terrain.append(temp)
 
         
