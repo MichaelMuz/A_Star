@@ -1,4 +1,5 @@
 from tkinter import *
+from LineOfSight import *
 
 class Node():
     SELECTED_COLOR = "cyan"
@@ -96,6 +97,7 @@ class Grid(Canvas):
             self.nodes.append(line)
 
         self.obstacles = []
+        self.robs = []
         for row in range(rowNumber):
             line = []
             for column in range(columnNumber):
@@ -109,6 +111,7 @@ class Grid(Canvas):
         self.selected = None
         self.start = None
         self.end = None
+        self.startp = None
 
     def draw(self):
         for row in self.obstacles:
@@ -125,18 +128,20 @@ class Grid(Canvas):
         return row, column
 
     def handleMouseClick(self, event):
-        row, column = self._eventCoords(event)
-        cell = self.nodes[row][column]
+        row, col = self._eventCoords(event)
+        cell = self.nodes[row][col]
         if self.selected != None:
             self.selected._toggle()
             self.selected.draw()
         self.selected = cell
         self.selected._toggle()
         self.selected.draw()
+        print(lineOfSight(self.startp, (col,row), self.robs))
 
     def fillObstacle(self, row, col):
         self.obstacles[row][col].filled = True
         self.obstacles[row][col].draw()
+        self.robs.append((row,col))
 
     def clearObstacle(self, row, col):
         self.obstacles[row][col].filled = False
@@ -149,6 +154,7 @@ class Grid(Canvas):
         self.nodes[row][col].start = True
         self.nodes[row][col].draw()
         self.start = self.nodes[row][col]
+        self.startp = (col,row)
         
     def setEnd(self, row, col):
         if self.end != None:
@@ -167,7 +173,9 @@ def loadMap(mapFile):
 
             app = Tk()
 
-            grid = Grid(app, rows, cols, 20, 8)
+            
+
+            grid = Grid(app, rows, cols, 20, 8, )
             grid.pack(pady=10, padx=10)
 
             grid.setStart(startx - 1, starty - 1)
