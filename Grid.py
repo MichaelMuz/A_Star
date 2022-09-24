@@ -39,9 +39,11 @@ class Grid:
 
     # TODO: Finish this method lol
     #be sure that all nodes returned have a prepopulated h value
+    #grid.py figure out endx and endy to straightline distance function
+    #this function should be called by a get_all_neighbors_I_can_actually_visit function
     def get_all_neighbors(current_node: Node):
         neighbors = []
-        above = (current_node.x_coordinate, current_node.y_coordinate -1 )
+        above = (current_node.x_coordinate, current_node.y_coordinate - 1)
         if(Grid.node_in_grid(above)):
             neighbors.append(above)
 
@@ -57,10 +59,26 @@ class Grid:
         if(Grid.node_in_grid(bottom_right_diagonal)):
             neighbors.append(bottom_right_diagonal)
         
-        bottom_right_diagonal = (current_node.x_coordinate + 1, current_node.y_coordinate + 1)
-        if(Grid.node_in_grid(bottom_right_diagonal)):
-            neighbors.append(bottom_right_diagonal)
+        down = (current_node.x_coordinate, current_node.y_coordinate + 1)
+        if(Grid.node_in_grid(down)):
+            neighbors.append(down)
         
+        bottom_left_diagonal = (current_node.x_coordinate - 1, current_node.y_coordinate + 1)
+        if(Grid.node_in_grid(bottom_left_diagonal)):
+            neighbors.append(bottom_left_diagonal)
+        
+        left = (current_node.x_coordinate - 1, current_node.y_coordinate)
+        if(Grid.node_in_grid(left)):
+            neighbors.append(left)
+        
+        top_left_diagonal = (current_node.x_coordinate - 1, current_node.y_coordinate - 1)
+        if(Grid.node_in_grid(top_left_diagonal)):
+            neighbors.append(top_left_diagonal)
+        
+        return neighbors
+        
+        
+
         
             
 
