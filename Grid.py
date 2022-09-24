@@ -13,10 +13,14 @@ class Grid:
     #        self.terrain.append(temp)
     def __init__(self, mapFile):
         with open(mapFile) as f:
-            #get size of 2D array
+            # TODO: i think i flipped the x and y or something? help lmao
+            starty,startx = list(map(int, f.readline().strip().split()))
+            endy,endx = list(map(int, f.readline().strip().split()))
             cols,rows = list(map(int, f.readline().strip().split()))
             self.x_size = cols
             self.y_size = rows
+            self.endy = endy
+            self.endx = endx
 
             #get obstacles
             self.obstacles = []
@@ -32,7 +36,8 @@ class Grid:
             for outside_array in range(self.y_size):
                 temp = []
                 for inner_array in range(self.x_size):
-                    temp.append(Node(inner_array, outside_array))
+                    h_value = Grid.straight_line_distance(inner_array, outside_array, self.endx, self.endy)
+                    temp.append(Node(inner_array, outside_array, h_value))
                     self.terrain.append(temp)
             
             
@@ -92,7 +97,7 @@ class Grid:
             return False
 
     # Heuristic Function
-    def straight_line_distance(self, x1: int, y1: int, x2: int, y2: int) -> float:
+    def straight_line_distance(x1: int, y1: int, x2: int, y2: int) -> float:
         deltaX = x2 - x1
         deltaY = y2 - y1
         diagonal_counter = min(abs(deltaX), abs(deltaY))
