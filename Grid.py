@@ -25,7 +25,6 @@ class Grid:
         if(y < 0 or y > self.y_size):
             return False
 
-<<<<<<< HEAD
     # Heuristic Function
     def straight_line_distance(self, x1: int, y1: int, x2: int, y2: int) -> float:
         deltaX = x2 - x1
@@ -34,9 +33,3 @@ class Grid:
         straight_counter = max(abs(deltaX), abs(deltaY)) - diagonal_counter
         total_distance = straight_counter + (math.sqrt(2) * diagonal_counter)
         return total_distance
-
-        
-=======
-    
->>>>>>> 7094d26381f40d0a22441d707ae07b1e50441067
-
