@@ -23,5 +23,5 @@ class Grid:
         if(y < 0 or y > self.y_size):
             return False
 
-        
+    
 
