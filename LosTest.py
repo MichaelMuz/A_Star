@@ -14,17 +14,17 @@ def loadMap(mapFile):
         grid = Grid(app, rows, cols, 20, 8)
         grid.pack(pady=10, padx=10)
 
-        grid.setStart(3, 1)
-        grid.setEnd(3, 3)
+        grid.set_start(3, 1)
+        grid.set_end(3, 3)
 
         lines = f.readlines()
         for line in lines:
             col, row, val = list(map(int, line.strip().split()))
             if val == 1:
-                grid.fillObstacle(row - 1, col - 1)
+                grid.fill_obstacle(row - 1, col - 1)
                 obstacles.append((row, col))
 
-    print(lineOfSight((1, 3), (3, 3), obstacles))
+    print(los((1, 3), (3, 3), obstacles))
     app.mainloop()
             
             

@@ -8,31 +8,31 @@ class PriorityQueue:
 
     def __init__(self):
         self.size = 0
-        self.heap = [0]
+        self.heap = []
 
-    def parent(self, pos):
+    def parent(self, pos: int) -> int:
         return pos // 2
 
-    def leftChild(self, pos):
+    def left_child(self, pos: int) -> int:
         return 2 * pos
 
-    def rightChild(self, pos):
+    def right_child(self, pos: int) -> int:
         return 2 * pos + 1
 
-    def isLeafNode(self, pos):
+    def is_leaf(self, pos: int) -> int:
         return pos * 2 > self.size
 
-    def swap(self, p1, p2):
+    def swap(self, p1: int, p2: int) -> int:
         self.heap[p1], self.heap[p2] = self.heap[p2], self.heap[p1]
 
-    def heapify(self, pos):
-        if not self.isLeafNode(pos):
-            if self.heap[self.leftChild(pos)] < self.heap[pos]:
-                self.swap(self.leftChild(pos), pos)
-                self.heapify(self.leftChild(pos))
-            elif self.heap[self.rightChild(pos)] < self.heap[pos]:
-                self.swap(self.rightChild(pos), pos)
-                self.heapify(self.rightChild(pos))
+    def heapify(self, pos: int):
+        if not self.is_leaf(pos):
+            if self.heap[self.left_child(pos)] < self.heap[pos]:
+                self.swap(self.left_child(pos), pos)
+                self.heapify(self.left_child(pos))
+            elif self.heap[self.right_child(pos)] < self.heap[pos]:
+                self.swap(self.right_child(pos), pos)
+                self.heapify(self.right_child(pos))
 
     def put(self, val):
         self.size += 1
@@ -55,8 +55,9 @@ class PriorityQueue:
         self.heapify(1)
         return ret
 
-    def Print(self):
+    def print(self):
         print(self.heap)
+
 
 if __name__ == "__main__":
     pq = PriorityQueue()
@@ -80,4 +81,3 @@ if __name__ == "__main__":
     pq.Print()
     pq.put(42)
     pq.Print()
-

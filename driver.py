@@ -1,7 +1,7 @@
 from Grid import Grid
-from LosTest import loadMap
+from LosTest import load_map
 if __name__ == "__main__" :
-    loadMap("map1.txt")
+    load_map("map1.txt")
     
 
 
