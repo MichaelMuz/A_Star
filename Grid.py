@@ -91,10 +91,7 @@ class Grid:
 
 
     def node_in_grid(self, x: int, y: int) -> bool:
-        if(x < 0 or x > self.x_size):
-            return False
-        if(y < 0 or y > self.y_size):
-            return False
+        return not (x < 0 or x > self.x_size or y < 0 or y > self.y_size)
 
     # Heuristic Function
     def straight_line_distance(self, x1: int, y1: int, x2: int, y2: int) -> float:
