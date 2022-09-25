@@ -44,19 +44,21 @@ class Grid:
     # grid.py figure out endx and endy to straightline distance function
     # this function should be called by a get_all_neighbors_I_can_actually_visit function
     def get_all_neighbors(self, current_node: Node) -> list[tuple[int]]:
-        curPos = (current_node.x_coordinate, current_node.y_coordinate)
+        cur_pos = (current_node.x_coordinate, current_node.y_coordinate)
         """
             Basically:
                 [(a, b) for a in [-1, 0, 1] for b in [-1, 0, 1] -> Get the cartesian product of [-1, 0, 1] x [-1, 0, 1]
                     This is the complete set of offsets a neighbor can be from some node
-                lambda x: tuple([x[i] + curPos[i] for i in range(len(x))]) -> for some tuple x, add it to curPos (element-wise)
+                lambda x: tuple([x[i] + cur_pos[i] for i in range(len(x))]) -> for some tuple x, add it to cur_pos (element-wise)
                 Combining the above two with `map` creates the list of the coordinates of all neighbors
             Then:
-                return [x for x in ... if x != curPos and self.node_in_grid_tup(x)] -> "..." is the above calculated set,
+                return [x for x in ... if x != cur_pos and self.node_in_grid_tup(x)] -> "..." is the above calculated set,
                     now we filter out the current position (It is not a neighbor of itself) and positions that are outside
                     the grid
         """
-        return [x for x in list(map(lambda x: tuple([int(x[i] + curPos[i]) for i in range(len(x))]), [(a, b) for a in [-1, 0, 1] for b in [-1, 0, 1]])) if x != curPos and self.node_in_grid_tup(x)]
+        return [x for x in list(map(lambda x: tuple([int(x[i] + cur_pos[i]) for i in range(len(x))]),
+                                    [(a, b) for a in [-1, 0, 1] for b in [-1, 0, 1]])) if
+                x != cur_pos and self.node_in_grid_tup(x)]
 
         """
         neighbors = []
@@ -109,7 +111,6 @@ class Grid:
         diagonal_counter = min(dx, dy)
         straight_counter = abs(dx - dy)
         return straight_counter + (math.sqrt(2) * diagonal_counter)
-
 
     def node_in_grid(self, x: int, y: int) -> bool:
         return not (x < 0 or x > self.x_size or y < 0 or y > self.y_size)

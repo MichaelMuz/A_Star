@@ -1,3 +1,7 @@
+from typing import TypeVar, Generic
+
+from Node import Node
+
 # Priority Queue using min heap data structure implementation
 # Usage:
 #    To make a priority queue use `pq = PriorityQueue()`
@@ -8,7 +12,8 @@ class PriorityQueue:
 
     def __init__(self):
         self.size = 0
-        self.heap = []
+        # Dummy node value
+        self.heap = [Node(0, 0, 0)]
 
     def parent(self, pos: int) -> int:
         return pos // 2
@@ -22,7 +27,7 @@ class PriorityQueue:
     def is_leaf(self, pos: int) -> int:
         return pos * 2 > self.size
 
-    def swap(self, p1: int, p2: int) -> int:
+    def swap(self, p1: int, p2: int):
         self.heap[p1], self.heap[p2] = self.heap[p2], self.heap[p1]
 
     def heapify(self, pos: int):
@@ -34,7 +39,7 @@ class PriorityQueue:
                 self.swap(self.right_child(pos), pos)
                 self.heapify(self.right_child(pos))
 
-    def put(self, val):
+    def put(self, val: Node):
         self.size += 1
         # Auto resize (append) if needed
         if len(self.heap) <= self.size:
@@ -48,7 +53,7 @@ class PriorityQueue:
             self.swap(cpos, self.parent(cpos))
             cpos = self.parent(cpos)
 
-    def get(self):
+    def get(self) -> Node:
         ret = self.heap[1]
         self.heap[1] = self.heap[self.size]
         self.size -= 1
@@ -56,28 +61,29 @@ class PriorityQueue:
         return ret
 
     def print(self):
-        print(self.heap)
+        for i in self.heap:
+            print(i.print())
 
 
 if __name__ == "__main__":
     pq = PriorityQueue()
-    pq.Print()
-    pq.put(47)
-    pq.put(50)
-    pq.Print()
-    pq.put(49)
-    pq.Print()
-    pq.put(48)
-    pq.Print()
-    pq.put(46)
-    pq.Print()
-    pq.put(45)
-    pq.Print()
-    pq.put(44)
-    pq.Print()
+    pq.print()
+    pq.put(Node(1, 1, 50))
+    pq.put(Node(1, 1, 47))
+    pq.print()
+    pq.put(Node(1, 1, 49))
+    pq.print()
+    pq.put(Node(1, 1, 48))
+    pq.print()
+    pq.put(Node(1, 1, 46))
+    pq.print()
+    pq.put(Node(1, 1, 45))
+    pq.print()
+    pq.put(Node(1, 1, 44))
+    pq.print()
     pq.get()
-    pq.Print()
-    pq.put(43)
-    pq.Print()
-    pq.put(42)
-    pq.Print()
+    pq.print()
+    pq.put(Node(1, 1, 43))
+    pq.print()
+    pq.put(Node(1, 1, 42))
+    pq.print()

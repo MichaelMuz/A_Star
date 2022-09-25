@@ -18,7 +18,10 @@ class Node:
     #this overrides the less than operator which priority queue uses to compare
     def __lt__(self, other_node):
         return self.get_f_value() < other_node.get_f_value()
-    
+
+    def print(self):
+        return (self.x_coordinate, self.y_coordinate), self.h_value
+
     def change_parent(self, parent):
         self.parent = parent
     
