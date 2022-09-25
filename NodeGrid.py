@@ -203,8 +203,8 @@ class Grid(Canvas):
 
 def loadMap(mapFile):
         with open(mapFile) as f:
-            starty,startx = list(map(int, f.readline().strip().split()))
-            endy,endx = list(map(int, f.readline().strip().split()))
+            startCol,startRow = list(map(int, f.readline().strip().split()))
+            endCol,endRow = list(map(int, f.readline().strip().split()))
             cols,rows = list(map(int, f.readline().strip().split()))
 
             app = Tk()
@@ -214,8 +214,8 @@ def loadMap(mapFile):
             grid = Grid(app, rows, cols, 20, 8, )
             grid.pack(pady=10, padx=10)
 
-            grid.setStart(startx - 1, starty - 1)
-            grid.setEnd(endx - 1, endy - 1)
+            grid.setStart(startRow - 1, startCol - 1)
+            grid.setEnd(endRow - 1, endCol - 1)
 
             lines = f.readlines()
             for line in lines:
