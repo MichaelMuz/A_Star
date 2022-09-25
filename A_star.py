@@ -1,9 +1,10 @@
+from json.encoder import INFINITY
 from Grid import Grid
 from Node import Node
 from queue import PriorityQueue
 
 class A_star:
-    def __init__(self, grid):
+    def __init__(self, grid: Grid):
         self.grid = grid
         self.fringe = PriorityQueue()
         self.closed_set = {}
@@ -20,13 +21,27 @@ class A_star:
                 return "path found"
             self.add_to_closed_set(s)
             for s in adjacent_nodes(s):
-                
+                if not self.is_in_closed_set(s):
+                    if s not in self.fringe:
+                        s.g_value = INFINITY
+                        s.parent = None
+                    self.updatevertex()
+        return "not path found"
+        
+    def update_vertex(self, parent, child):
+        straight_line_distance = Grid.straight_line_distance(parent, child)
+        if parent.g_value + straight_line_distance < child.g_value():
+            child.g_value = parent.g_value + straight_line_distance
+            child.parent = parent
+            if child in self.fringe():
+                self.fringe.remove(child)
+            self.fringe.insert(child)
 
 
 
 
 
-    def add_to_closed_set(self, node: Node):
+    def add_to_closed_set(self, node):
         self.closed_set[(node.x_coordinate, node.y_coordinate)] = node
     
 
