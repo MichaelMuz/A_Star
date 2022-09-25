@@ -2,8 +2,9 @@ from LineOfSight import lineOfSight
 from Node import Node
 import math
 
+
 class Grid:
-    #def __init__(self, x_size, y_size):
+    # def __init__(self, x_size, y_size):
     #    self.x_size = x_size
     #    self.y_size = y_size
     #    self.terrain = []
@@ -12,12 +13,10 @@ class Grid:
     #        for inner_array in range(x_size):
     #            temp.append(Node(inner_array, outside_array))
     #        self.terrain.append(temp)
-    def __init__(self, mapFile):
-        with open(mapFile) as f:
-            # TODO: i think i flipped the x and y or something? help lmao
-            starty,startx = list(map(int, f.readline().strip().split()))
-            endy,endx = list(map(int, f.readline().strip().split()))
-            cols,rows = list(map(int, f.readline().strip().split()))
+    def __init__(self, map_file: str):
+        with open(map_file) as f:
+            end_col, end_row = list(map(int, f.readline().strip().split()))
+            cols, rows = list(map(int, f.readline().strip().split()))
             self.x_size = cols
             self.y_size = rows
             
@@ -26,11 +25,11 @@ class Grid:
 
             lines = f.readlines()
             for line in lines:
-                col,row,val = list(map(int, line.strip().split()))
+                col, row, val = list(map(int, line.strip().split()))
                 if val == 1:
-                    self.obstacles.append((row,col))
+                    self.obstacles.append((row, col))
 
-            #generate 2D array
+            # generate 2D array
             self.terrain = []
             for outside_array in range(self.y_size):
                 temp = []

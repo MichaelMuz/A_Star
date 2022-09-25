@@ -1,12 +1,11 @@
-from LineOfSight import *
 from NodeGrid import *
 
+
 def loadMap(mapFile):
-    
     with open(mapFile) as f:
-        starty,startx = list(map(int, f.readline().strip().split()))
-        endy,endx = list(map(int, f.readline().strip().split()))
-        cols,rows = list(map(int, f.readline().strip().split()))
+        starty, startx = list(map(int, f.readline().strip().split()))
+        endy, endx = list(map(int, f.readline().strip().split()))
+        cols, rows = list(map(int, f.readline().strip().split()))
 
         obstacles = []
 
@@ -15,19 +14,17 @@ def loadMap(mapFile):
         grid = Grid(app, rows, cols, 20, 8)
         grid.pack(pady=10, padx=10)
 
-        grid.setStart(3, 1)
-        grid.setEnd(3, 3)
+        grid.set_start(3, 1)
+        grid.set_end(3, 3)
 
         lines = f.readlines()
         for line in lines:
-            col,row,val = list(map(int, line.strip().split()))
+            col, row, val = list(map(int, line.strip().split()))
             if val == 1:
-                grid.fillObstacle(row - 1, col - 1)
-                obstacles.append((row,col))
-        
+                grid.fill_obstacle(row - 1, col - 1)
+                obstacles.append((row, col))
 
-    
-    print(lineOfSight((1,3), (3,3), obstacles))
+    print(los((1, 3), (3, 3), obstacles))
     app.mainloop()
             
             
