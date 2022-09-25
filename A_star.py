@@ -29,8 +29,8 @@ class A_star:
                     self.update_vertex()
         return "not path found"
 
-    def update_vertex(self, parent: Node, child):
-        straight_line_distance = self.grid.straight_line_distance_tup((parent.x_coordinate, parent.y_coordinate), child)
+    def update_vertex(self, parent: Node, child: Node):
+        straight_line_distance = self.grid.straight_line_distance_tup((parent.x_coordinate, parent.y_coordinate), (child.x_coordinate, child.y_coordinate))
         if parent.g_value + straight_line_distance < child.g_value():
             child.g_value = parent.g_value + straight_line_distance
             child.parent = parent
