@@ -46,7 +46,7 @@ class Grid:
     #be sure that all nodes returned have a prepopulated h value
     #grid.py figure out endx and endy to straightline distance function
     #this function should be called by a get_all_neighbors_I_can_actually_visit function
-    def get_all_neighbors(current_node: Node):
+    def get_all_neighbors(self, current_node: Node):
         neighbors = []
         above = (current_node.x_coordinate, current_node.y_coordinate - 1)
         if(Grid.node_in_grid(above)):
@@ -97,7 +97,7 @@ class Grid:
             return False
 
     # Heuristic Function
-    def straight_line_distance(x1: int, y1: int, x2: int, y2: int) -> float:
+    def straight_line_distance(self, x1: int, y1: int, x2: int, y2: int) -> float:
         deltaX = x2 - x1
         deltaY = y2 - y1
         diagonal_counter = min(abs(deltaX), abs(deltaY))
