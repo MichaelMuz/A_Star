@@ -9,9 +9,10 @@ class A_star:
         self.grid = grid
         self.fringe = PriorityQueue()
         self.closed_set = {}
-    
+
     def run_algorithm(self):
         start_node = self.grid.start_node
+
         start_node.change_g_value(0)
         start_node.change_parent(start_node)
         self.fringe.put(start_node)
