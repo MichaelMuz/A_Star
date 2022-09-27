@@ -23,19 +23,19 @@ class A_star:
             if self.grid.is_goal_node(s):
                 return "path found"
             self.add_to_closed_set(s)
-            for s in Grid.get_adjacency_list(s):
-                if not self.is_in_closed_set(s):
-                    if s not in self.fringe:
-                        s.g_value = INFINITY
-                        s.parent = None
-                    self.update_vertex()
+            for s_prime in Grid.get_adjacency_list(s):
+                if not self.is_in_closed_set(s_prime):
+                    if s_prime not in self.fringe:
+                        s_prime.change_g_value(INFINITY)
+                        s_prime.change_parent(None)
+                    self.update_vertex(s, s_prime)
         return "not path found"
 
     def update_vertex(self, parent: Node, child: Node):
         straight_line_distance = self.grid.straight_line_distance_tup((parent.x_coordinate, parent.y_coordinate), (child.x_coordinate, child.y_coordinate))
         if parent.g_value + straight_line_distance < child.g_value():
-            child.g_value = parent.g_value + straight_line_distance
-            child.parent = parent
+            child.change_g_value(parent.g_value + straight_line_distance)
+            child.change_parent(parent)
             if child in self.fringe:
                 self.fringe.remove(child)
             self.fringe.insert(child)

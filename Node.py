@@ -15,6 +15,9 @@ class Node:
     def change_h_value(self, new_h: float):
         self.h_value = new_h
 
+    def change_parent(self, new_parent):
+        self.parent = new_parent
+
     #this overrides the less than operator which priority queue uses to compare
     def __lt__(self, other_node):
         return self.get_f_value() < other_node.get_f_value()
