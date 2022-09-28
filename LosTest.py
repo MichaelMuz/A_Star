@@ -1,3 +1,4 @@
+from LineOfSight import los
 from NodeGrid import *
 
 
@@ -11,7 +12,7 @@ def loadMap(mapFile):
 
         app = Tk()
 
-        grid = Grid(app, rows, cols, 20, 8)
+        grid = GuiGrid(app, rows, cols, 20, 8)
         grid.pack(pady=10, padx=10)
 
         grid.set_start(3, 1)

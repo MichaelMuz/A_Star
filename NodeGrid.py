@@ -1,5 +1,5 @@
 from tkinter import *
-from LineOfSight import *
+from Grid import *
 
 
 class Node:
@@ -110,7 +110,7 @@ class PathSegment:
             self.master.create_line(x0, y0, x1, y1, fill=PathSegment.LINE_COLOR, tags="pathsegment")
 
 
-class Grid(Canvas):
+class GuiGrid(Canvas):
     def __init__(self, master, row_num, col_num, cell_size, padding, *args, **kwargs):
         Canvas.__init__(self, master, width=cell_size * col_num + padding * 2,
                         height=cell_size * row_num + padding * 2, *args, **kwargs)
@@ -201,28 +201,44 @@ class Grid(Canvas):
     def remove_path(self, p0, p1):
         self.paths = [x for x in self.paths if x.p0 != p0 and x.p1 != p1]
 
+
+def trace(pathfinding_grid: Grid, gui_grid: GuiGrid):
+    current_vert = pathfinding_grid.goal_node
+    while current_vert.parent is not None:
+        print((current_vert.x_coordinate, current_vert.y_coordinate))
+        parent_node = current_vert.parent
+        gui_grid.add_path((current_vert.x_coordinate, current_vert.y_coordinate),
+                          (parent_node.x_coordinate, parent_node.y_coordinate))
+        current_vert = parent_node
+        # (pathfinding_grid.goal_node.x_coordinate, pathfinding_grid.goal_node.y_coordinate)
+
+
 # Todo refactor and make generic
-def load_map(map_file: str):
+def load_map(map_file: str) -> tuple[Tk, GuiGrid]:
     with open(map_file) as f:
-        startCol, startRow = list(map(int, f.readline().strip().split()))
+        start_col, start_row = list(map(int, f.readline().strip().split()))
         end_col, end_row = list(map(int, f.readline().strip().split()))
         cols, rows = list(map(int, f.readline().strip().split()))
 
         app = Tk()
 
-        grid = Grid(app, rows, cols, 20, 8, )
-        grid.pack(pady=10, padx=10)
+        gui_grid = GuiGrid(app, rows, cols, 20, 8, )
+        gui_grid.pack(pady=10, padx=10)
 
-        grid.set_start(startRow - 1, startCol - 1)
-        grid.set_end(end_row - 1, end_col - 1)
+        gui_grid.set_start(start_row - 1, start_col - 1)
+        gui_grid.set_end(end_row - 1, end_col - 1)
 
         lines = f.readlines()
         for line in lines:
             col, row, val = list(map(int, line.strip().split()))
             if val == 1:
-                grid.fill_obstacle(row - 1, col - 1)
+                gui_grid.fill_obstacle(row - 1, col - 1)
 
-        app.mainloop()
+        return app, gui_grid
+
+
+def run_app(app):
+    app.mainloop()
 
 
 if __name__ == "__main__":
