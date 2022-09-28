@@ -27,8 +27,7 @@ class Grid:
             for outside_array in range(self.y_size):
                 temp = []
                 for inner_array in range(self.x_size):
-
-                    h_value = self.heuristic_generator(inner_array, outside_array)
+                    h_value = Grid.straight_line_distance(inner_array, outside_array, end_col, end_row)
                     temp.append(Node(inner_array, outside_array, h_value))
                     self.terrain.append(temp)
             self.goal_node = self.terrain[end_col][end_row]
@@ -95,17 +94,6 @@ class Grid:
         straight_counter = max(abs(deltaX), abs(deltaY)) - diagonal_counter
         total_distance = straight_counter + (math.sqrt(2) * diagonal_counter)
         return total_distance
-
-    
-    
-    #wrapper function for straight_line_distance()
-    def heuristic_generator(self, x, y):
-        return Grid.straight_line_distance(
-            x, 
-            y, 
-            self.goal_node.x_coordinate, 
-            self.goal_node.y_coordinate,
-            )
 
     #checks if there is an obstacle between two nodes
     def line_of_sight(self, p0: tuple[int, int], p1: tuple[int, int]):
