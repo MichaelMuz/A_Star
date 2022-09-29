@@ -1,4 +1,3 @@
-
 from Node import Node
 import math
 
@@ -17,8 +16,6 @@ class Grid:
             end_col = end_col - 1
             end_row = end_row - 1
 
-            
-
             # print("start col: " + str(start_col) + " start row: " + str(start_row))
             # print("end col: " + str(end_col) + " end row: " + str(end_row))
             #size is given by number of cells accross by vertical so need to add one to each bc that many intersections
@@ -34,7 +31,17 @@ class Grid:
             for line in lines:
                 col, row, val = list(map(int, line.strip().split()))
                 if val == 1:
-                    self.obstacles.append((col, row))
+                    self.obstacles.append((col - 1, row - 1))
+            for x in range(-1, self.x_size + 1):
+                self.obstacles.append((x, -1))
+                print((x, -1))
+                self.obstacles.append((x, self.y_size - 1))
+                print((x, self.y_size))
+            for y in range(-1, self.y_size + 1):
+                self.obstacles.append((-1, y))
+                print((-1, y))
+                self.obstacles.append((self.x_size - 1, y))
+                print((self.x_size, y))
             
             # print("will make this many subarrays: " + str(self.y_size))
             # print("each subarray will be this length: " + str(self.x_size))
@@ -62,7 +69,6 @@ class Grid:
         for (x, y) in possibilities:
             in_sight = self.line_of_sight((current_node.x_coordinate, current_node.y_coordinate), (x, y))
             if in_sight:
-                # print(self.x_size, self.y_size,x,y)
                 # print(len(self.terrain))
                 actual_nodes.append(self.terrain[x][y])
         # print("adjacency list for current_node: (" + str(current_node.x_coordinate) + "," + str(current_node.y_coordinate) + ")")
@@ -129,8 +135,8 @@ class Grid:
         f = 0
         sy = 1
         sx = 1
-        y0, x0 = p0
-        y1, x1 = p1
+        x0, y0 = p0
+        x1, y1 = p1
         dy = y1 - y0
         dx = x1 - x0
 

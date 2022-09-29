@@ -25,7 +25,7 @@ class A_star:
                 return "path found"
             self.add_to_closed_set(s)
             for s_prime in self.grid.get_adjacency_list(s):
-                print((s.x_coordinate, s.y_coordinate), (s_prime.x_coordinate, s_prime.y_coordinate))
+                # print((s.x_coordinate, s.y_coordinate), (s_prime.x_coordinate, s_prime.y_coordinate))
                 if not self.is_in_closed_set(s_prime):
                     if s_prime not in self.fringe.queue:
                         s_prime.change_g_value(INFINITY)

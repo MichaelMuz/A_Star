@@ -109,7 +109,7 @@ class PathSegment:
     def draw(self):
         if self.master is not None:
             (x0, y0), (x1, y1) = self.corners_screen_coords()
-            self.master.create_line(x0, y0, x1, y1, fill=PathSegment.LINE_COLOR, tags="pathsegment")
+            self.master.create_line(x0, y0, x1, y1, fill=PathSegment.LINE_COLOR, width=2, tags="pathsegment")
 
 
 class GuiGrid(Canvas):
