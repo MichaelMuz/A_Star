@@ -10,9 +10,20 @@ class Grid:
         with open(map_file) as f:
             start_col, start_row = list(map(int, f.readline().strip().split()))
             end_col, end_row = list(map(int, f.readline().strip().split()))
+
+            #the way the inputs are, the x and y coordinates are starting with 1 so we need to scale down by 1
+            start_col = start_col - 1
+            start_row = start_row - 1
+            end_col = end_row - 1
+
+            
+
             print("start col: " + str(start_col) + " start row: " + str(start_row))
             print("end col: " + str(end_col) + " end row: " + str(end_row))
+            #size is given by number of cells accross by vertical so need to add one to each bc that many intersections
             cols, rows = list(map(int, f.readline().strip().split()))
+            cols = cols + 1
+            rows = rows + 1
             self.x_size = cols
             self.y_size = rows
 
@@ -23,6 +34,9 @@ class Grid:
                 col, row, val = list(map(int, line.strip().split()))
                 if val == 1:
                     self.obstacles.append((row, col))
+            
+            print("will make this many subarrays: " + str(self.y_size))
+            print("each subarray will be this length: " + str(self.x_size))
 
             # generate 2D array
             self.terrain = []
@@ -31,16 +45,14 @@ class Grid:
                 for inner_array in range(self.x_size):
                     h_value = Grid.straight_line_distance(inner_array, outside_array, end_col, end_row)
                     temp.append(Node(inner_array, outside_array, h_value))
-                    self.terrain.append(temp)
-            self.goal_node = self.terrain[end_col][end_row]
+                self.terrain.append(temp)
+
+
+            self.goal_node = self.terrain[end_row][end_col]
             self.goal_node.change_h_value(0)
-            self.start_node = self.terrain[start_col][start_row] 
+            self.start_node = self.terrain[start_row][start_col] 
             print("start node x val: " + str(self.start_node.x_coordinate) + " start node y val: " + str(self.start_node.y_coordinate)) 
             print("goal node x val: " + str(self.goal_node.x_coordinate) + " goal node y val: " + str(self.goal_node.y_coordinate)) 
-            for i in self.terrain:
-                for j in i:
-                    print(str(j.x_coordinate) + "," + str(j.y_coordinate), end='')
-                print()
             
     #returns a list of only the nodes that you can actually go to
     def get_adjacency_list(self, current_node: Node):
