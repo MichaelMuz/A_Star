@@ -10,6 +10,8 @@ class Grid:
         with open(map_file) as f:
             start_col, start_row = list(map(int, f.readline().strip().split()))
             end_col, end_row = list(map(int, f.readline().strip().split()))
+            print("start col: " + str(start_col) + " start row: " + str(start_row))
+            print("end col: " + str(end_col) + " end row: " + str(end_row))
             cols, rows = list(map(int, f.readline().strip().split()))
             self.x_size = cols
             self.y_size = rows
@@ -33,6 +35,12 @@ class Grid:
             self.goal_node = self.terrain[end_col][end_row]
             self.goal_node.change_h_value(0)
             self.start_node = self.terrain[start_col][start_row] 
+            print("start node x val: " + str(self.start_node.x_coordinate) + " start node y val: " + str(self.start_node.y_coordinate)) 
+            print("goal node x val: " + str(self.goal_node.x_coordinate) + " goal node y val: " + str(self.goal_node.y_coordinate)) 
+            for i in self.terrain:
+                for j in i:
+                    print(str(j.x_coordinate) + "," + str(j.y_coordinate), end='')
+                print()
             
     #returns a list of only the nodes that you can actually go to
     def get_adjacency_list(self, current_node: Node):
@@ -42,6 +50,9 @@ class Grid:
             in_sight = self.line_of_sight((current_node.x_coordinate, current_node.y_coordinate), (x, y))
             if(in_sight):
                 actual_nodes.append(self.terrain[y][x])
+        print("adjacency list for current_node: (" + str(current_node.x_coordinate) + "," + str(current_node.y_coordinate) + ")")
+        for node in actual_nodes:
+            print("xcoordinate : " + str(node.x_coordinate) + "ycoordinate : " + str(node.y_coordinate))
         return actual_nodes
 
     
@@ -82,7 +93,9 @@ class Grid:
         dy = abs(x2 - x1)
         diagonal_counter = min(dx, dy)
         straight_counter = abs(dx - dy)
-        return straight_counter + (math.sqrt(2) * diagonal_counter)
+        sld = straight_counter + (math.sqrt(2) * diagonal_counter)
+        print("straight line distance between " + str(x1) + "," + str(y1) + "and" + str(x2) + "," + str(y2) + "is: " + str(sld))
+        return sld
 
     
 
@@ -93,6 +106,7 @@ class Grid:
         diagonal_counter = min(abs(deltaX), abs(deltaY))
         straight_counter = max(abs(deltaX), abs(deltaY)) - diagonal_counter
         total_distance = straight_counter + (math.sqrt(2) * diagonal_counter)
+        print("straight line distance between " + str(x1) + "," + str(y1) + " and " + str(x2) + "," + str(y2) + " is: " + str(total_distance))
         return total_distance
 
     #checks if there is an obstacle between two nodes
@@ -142,6 +156,8 @@ class Grid:
                     return False
                 y0 = y0 + sy
         return True
+    
+   
 
 
 
