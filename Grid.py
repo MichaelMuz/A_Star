@@ -14,12 +14,13 @@ class Grid:
             #the way the inputs are, the x and y coordinates are starting with 1 so we need to scale down by 1
             start_col = start_col - 1
             start_row = start_row - 1
-            end_col = end_row - 1
+            end_col = end_col - 1
+            end_row = end_row - 1
 
             
 
-            print("start col: " + str(start_col) + " start row: " + str(start_row))
-            print("end col: " + str(end_col) + " end row: " + str(end_row))
+            # print("start col: " + str(start_col) + " start row: " + str(start_row))
+            # print("end col: " + str(end_col) + " end row: " + str(end_row))
             #size is given by number of cells accross by vertical so need to add one to each bc that many intersections
             cols, rows = list(map(int, f.readline().strip().split()))
             cols = cols + 1
@@ -33,26 +34,26 @@ class Grid:
             for line in lines:
                 col, row, val = list(map(int, line.strip().split()))
                 if val == 1:
-                    self.obstacles.append((row, col))
+                    self.obstacles.append((col, row))
             
-            print("will make this many subarrays: " + str(self.y_size))
-            print("each subarray will be this length: " + str(self.x_size))
+            # print("will make this many subarrays: " + str(self.y_size))
+            # print("each subarray will be this length: " + str(self.x_size))
 
             # generate 2D array
             self.terrain = []
-            for outside_array in range(self.y_size):
+            for outside_array in range(0, self.y_size + 1):
                 temp = []
-                for inner_array in range(self.x_size):
-                    h_value = Grid.straight_line_distance(inner_array, outside_array, end_col, end_row)
+                for inner_array in range(0, self.x_size + 1):
+                    h_value = self.straight_line_distance_tup((inner_array, outside_array), (end_col, end_row))
                     temp.append(Node(inner_array, outside_array, h_value))
                 self.terrain.append(temp)
 
 
-            self.goal_node = self.terrain[end_row][end_col]
+            self.goal_node = self.terrain[end_col][end_row]
             self.goal_node.change_h_value(0)
-            self.start_node = self.terrain[start_row][start_col] 
-            print("start node x val: " + str(self.start_node.x_coordinate) + " start node y val: " + str(self.start_node.y_coordinate)) 
-            print("goal node x val: " + str(self.goal_node.x_coordinate) + " goal node y val: " + str(self.goal_node.y_coordinate)) 
+            self.start_node = self.terrain[start_col][start_row]
+            # print("start node x val: " + str(self.start_node.x_coordinate) + " start node y val: " + str(self.start_node.y_coordinate))
+            # print("goal node x val: " + str(self.goal_node.x_coordinate) + " goal node y val: " + str(self.goal_node.y_coordinate))
             
     #returns a list of only the nodes that you can actually go to
     def get_adjacency_list(self, current_node: Node):
@@ -60,11 +61,13 @@ class Grid:
         actual_nodes = []
         for (x, y) in possibilities:
             in_sight = self.line_of_sight((current_node.x_coordinate, current_node.y_coordinate), (x, y))
-            if(in_sight):
+            if in_sight:
+                # print(self.x_size, self.y_size,x,y)
+                # print(len(self.terrain))
                 actual_nodes.append(self.terrain[x][y])
-        print("adjacency list for current_node: (" + str(current_node.x_coordinate) + "," + str(current_node.y_coordinate) + ")")
-        for node in actual_nodes:
-            print("xcoordinate : " + str(node.x_coordinate) + "ycoordinate : " + str(node.y_coordinate))
+        # print("adjacency list for current_node: (" + str(current_node.x_coordinate) + "," + str(current_node.y_coordinate) + ")")
+        # for node in actual_nodes:
+            # print("xcoordinate : " + str(node.x_coordinate) + "ycoordinate : " + str(node.y_coordinate))
         return actual_nodes
 
     
@@ -102,7 +105,7 @@ class Grid:
         x1, y1 = p1
         x2, y2 = p2
         dx = abs(x2 - x1)
-        dy = abs(x2 - x1)
+        dy = abs(y2 - y1)
         diagonal_counter = min(dx, dy)
         straight_counter = abs(dx - dy)
         sld = straight_counter + (math.sqrt(2) * diagonal_counter)
@@ -112,7 +115,7 @@ class Grid:
     
 
     # Heuristic Function
-    def straight_line_distance(x1: int, y1: int, x2: int, y2: int) -> float:
+    def straight_line_distance(self, x1: int, y1: int, x2: int, y2: int) -> float:
         deltaX = x2 - x1
         deltaY = y2 - y1
         diagonal_counter = min(abs(deltaX), abs(deltaY))
@@ -175,5 +178,5 @@ class Grid:
 
 if __name__ == "__main__":
     grid = Grid("map1.txt")
-    print(grid.get_all_neighbors(Node(0, 2, 0)))
+    print(grid.get_all_neighbors(Node(3, 1, 0)))
 

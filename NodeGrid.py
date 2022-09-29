@@ -1,4 +1,6 @@
 from tkinter import *
+
+import Grid
 from Grid import *
 
 
@@ -142,6 +144,10 @@ class GuiGrid(Canvas):
         self.selected = None
         self.start = None
         self.end = None
+        self.grid = None
+
+    def bind_grid(self, grid: Grid):
+        self.grid = grid
 
     def draw(self):
         for row in self.obstacles:
@@ -166,6 +172,7 @@ class GuiGrid(Canvas):
         self.selected = cell
         self.selected.toggle()
         self.selected.draw()
+        print(self.grid.terrain[col][row].print())
 
     def fill_obstacle(self, row: int, col: int):
         self.obstacles[row][col].filled = True
@@ -207,8 +214,8 @@ def trace(pathfinding_grid: Grid, gui_grid: GuiGrid):
     while current_vert.parent is not None and (current_vert.x_coordinate, current_vert.y_coordinate) != (pathfinding_grid.start_node.x_coordinate, pathfinding_grid.start_node.y_coordinate):
         print((current_vert.x_coordinate, current_vert.y_coordinate))
         parent_node = current_vert.parent
-        gui_grid.add_path((current_vert.x_coordinate, current_vert.y_coordinate),
-                          (parent_node.x_coordinate, parent_node.y_coordinate))
+        gui_grid.add_path((current_vert.y_coordinate, current_vert.x_coordinate),
+                          (parent_node.y_coordinate, parent_node.x_coordinate))
         current_vert = parent_node
         # (pathfinding_grid.goal_node.x_coordinate, pathfinding_grid.goal_node.y_coordinate)
     print((current_vert.x_coordinate, current_vert.y_coordinate))

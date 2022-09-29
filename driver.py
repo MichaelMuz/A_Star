@@ -11,5 +11,6 @@ if __name__ == "__main__" :
     app, gui_grid = load_map_gui(filename)
     astar = A_star(grid)
     astar.run_algorithm()
+    gui_grid.bind_grid(grid)
     trace(grid, gui_grid)
     run_app(app)
