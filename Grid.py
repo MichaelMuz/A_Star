@@ -109,7 +109,7 @@ class Grid:
         diagonal_counter = min(dx, dy)
         straight_counter = abs(dx - dy)
         sld = straight_counter + (math.sqrt(2) * diagonal_counter)
-        print("straight line distance between " + str(x1) + "," + str(y1) + "and" + str(x2) + "," + str(y2) + "is: " + str(sld))
+        #print("straight line distance between " + str(x1) + "," + str(y1) + "and" + str(x2) + "," + str(y2) + "is: " + str(sld))
         return sld
 
     
@@ -121,7 +121,7 @@ class Grid:
         diagonal_counter = min(abs(deltaX), abs(deltaY))
         straight_counter = max(abs(deltaX), abs(deltaY)) - diagonal_counter
         total_distance = straight_counter + (math.sqrt(2) * diagonal_counter)
-        print("straight line distance between " + str(x1) + "," + str(y1) + " and " + str(x2) + "," + str(y2) + " is: " + str(total_distance))
+        #print("straight line distance between " + str(x1) + "," + str(y1) + " and " + str(x2) + "," + str(y2) + " is: " + str(total_distance))
         return total_distance
 
     #checks if there is an obstacle between two nodes
