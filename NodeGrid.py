@@ -204,13 +204,14 @@ class GuiGrid(Canvas):
 
 def trace(pathfinding_grid: Grid, gui_grid: GuiGrid):
     current_vert = pathfinding_grid.goal_node
-    while current_vert.parent is not None:
+    while current_vert.parent is not None and (current_vert.x_coordinate, current_vert.y_coordinate) != (pathfinding_grid.start_node.x_coordinate, pathfinding_grid.start_node.y_coordinate):
         print((current_vert.x_coordinate, current_vert.y_coordinate))
         parent_node = current_vert.parent
         gui_grid.add_path((current_vert.x_coordinate, current_vert.y_coordinate),
                           (parent_node.x_coordinate, parent_node.y_coordinate))
         current_vert = parent_node
         # (pathfinding_grid.goal_node.x_coordinate, pathfinding_grid.goal_node.y_coordinate)
+    print((current_vert.x_coordinate, current_vert.y_coordinate))
 
 
 # Todo refactor and make generic

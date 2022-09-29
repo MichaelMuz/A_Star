@@ -17,16 +17,16 @@ class A_star:
         start_node.change_parent(start_node)
         self.fringe.put(start_node)
 
-        while not self.fringe.empty:
+        while not self.fringe.qsize() == 0:
             # .get will pop it
             s = self.fringe.get()
             if self.grid.is_goal_node(s):
                 print("path found")
                 return "path found"
             self.add_to_closed_set(s)
-            for s_prime in s.get_adjacency_list(s):
+            for s_prime in self.grid.get_adjacency_list(s):
                 if not self.is_in_closed_set(s_prime):
-                    if s_prime not in self.fringe:
+                    if s_prime not in self.fringe.queue:
                         s_prime.change_g_value(INFINITY)
                         s_prime.change_parent(None)
                     self.update_vertex(s, s_prime)
@@ -35,12 +35,12 @@ class A_star:
 
     def update_vertex(self, parent: Node, child: Node):
         straight_line_distance = self.grid.straight_line_distance_tup((parent.x_coordinate, parent.y_coordinate), (child.x_coordinate, child.y_coordinate))
-        if parent.g_value + straight_line_distance < child.g_value():
+        if parent.g_value + straight_line_distance < child.g_value:
             child.change_g_value(parent.g_value + straight_line_distance)
             child.change_parent(parent)
-            if child in self.fringe:
-                self.fringe.remove(child)
-            self.fringe.insert(child)
+            if child in self.fringe.queue:
+                self.fringe.queue.__contains__(child)
+            self.fringe.put(child)
 
     def add_to_closed_set(self, node):
         self.closed_set[(node.x_coordinate, node.y_coordinate)] = node

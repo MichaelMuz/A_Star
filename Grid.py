@@ -56,12 +56,12 @@ class Grid:
             
     #returns a list of only the nodes that you can actually go to
     def get_adjacency_list(self, current_node: Node):
-        possibilities = Grid.get_all_neighbors(current_node)
+        possibilities = self.get_all_neighbors(current_node)
         actual_nodes = []
         for (x, y) in possibilities:
             in_sight = self.line_of_sight((current_node.x_coordinate, current_node.y_coordinate), (x, y))
             if(in_sight):
-                actual_nodes.append(self.terrain[y][x])
+                actual_nodes.append(self.terrain[x][y])
         print("adjacency list for current_node: (" + str(current_node.x_coordinate) + "," + str(current_node.y_coordinate) + ")")
         for node in actual_nodes:
             print("xcoordinate : " + str(node.x_coordinate) + "ycoordinate : " + str(node.y_coordinate))
