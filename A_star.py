@@ -21,14 +21,16 @@ class A_star:
             # .get will pop it
             s = self.fringe.get()
             if self.grid.is_goal_node(s):
+                print("path found")
                 return "path found"
             self.add_to_closed_set(s)
-            for s_prime in Grid.get_adjacency_list(s):
+            for s_prime in s.get_adjacency_list(s):
                 if not self.is_in_closed_set(s_prime):
                     if s_prime not in self.fringe:
                         s_prime.change_g_value(INFINITY)
                         s_prime.change_parent(None)
                     self.update_vertex(s, s_prime)
+        print("path not found")
         return "not path found"
 
     def update_vertex(self, parent: Node, child: Node):
