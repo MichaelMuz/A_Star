@@ -2,23 +2,34 @@ from Node import Node
 import math
 
 
+# Does this need to be Euclidean distance for Theta*?
+# Heuristic function
+def straight_line_distance(p1: tuple[int, int], p2: tuple[int, int]) -> float:
+    x1, y1 = p1
+    x2, y2 = p2
+    dx = abs(x2 - x1)
+    dy = abs(y2 - y1)
+    diagonal_counter = min(dx, dy)
+    straight_counter = abs(dx - dy)
+    sld = straight_counter + (math.sqrt(2) * diagonal_counter)
+    return sld
+
+
 class Grid:
 
-    # takes map and saves dimensions, start node, end node, and list of obstacles
+    # Takes map and saves dimensions, start node, end node, and list of obstacles
     def __init__(self, map_file: str):
         with open(map_file) as f:
             start_col, start_row = list(map(int, f.readline().strip().split()))
             end_col, end_row = list(map(int, f.readline().strip().split()))
 
-            # the way the inputs are, the x and y coordinates are starting with 1 so we need to scale down by 1
+            # Coordinates are given 1-indexed, so we need to scale down to 0-indexed
             start_col = start_col - 1
             start_row = start_row - 1
             end_col = end_col - 1
             end_row = end_row - 1
 
-            # print("start col: " + str(start_col) + " start row: " + str(start_row))
-            # print("end col: " + str(end_col) + " end row: " + str(end_row))
-            # size is given by number of cells accross by vertical so need to add one to each bc that many intersections
+            # size is given by number of cells across by vertical so need to add one to each bc that many intersections
             cols, rows = list(map(int, f.readline().strip().split()))
             cols = cols + 1
             rows = rows + 1
@@ -39,15 +50,11 @@ class Grid:
                 self.obstacles.append((-1, y))
                 self.obstacles.append((self.x_size - 1, y))
 
-            # print("will make this many subarrays: " + str(self.y_size))
-            # print("each subarray will be this length: " + str(self.x_size))
-
-            # generate 2D array
             self.terrain = []
             for column in range(0, self.x_size + 1):
                 temp = []
                 for row in range(0, self.y_size + 1):
-                    h_value = self.straight_line_distance_tup((column, row), (end_col, end_row))
+                    h_value = straight_line_distance((column, row), (end_col, end_row))
                     temp.append(Node(column, row, h_value))
                 self.terrain.append(temp)
 
@@ -55,7 +62,7 @@ class Grid:
             self.goal_node.change_h_value(0)
             self.start_node = self.terrain[start_col][start_row]
 
-    # Returns a list of only the nodes that you can actually go to
+    # Returns a list of only accessible nodes
     def get_adjacency_list(self, current_node: Node):
         possibilities = self.get_all_neighbors(current_node)
         actual_nodes = []
@@ -65,11 +72,11 @@ class Grid:
                 actual_nodes.append(self.terrain[x][y])
         return actual_nodes
 
-    # checks if node is goal_node
+    # Checks if node is the goal
     def is_goal_node(self, node: Node):
         return node.compare_nodes(self.goal_node)
 
-    # returns all 8 possible neighbors
+    # Returns up to 8 possible neighbors
     def get_all_neighbors(self, current_node: Node) -> list[tuple[int]]:
         cur_pos = (current_node.x_coordinate, current_node.y_coordinate)
         """
@@ -87,33 +94,13 @@ class Grid:
                                     [(a, b) for a in [-1, 0, 1] for b in [-1, 0, 1]])) if
                 x != cur_pos and self.node_in_grid_tup(x)]
 
-    # checks if a node is in the grid
-    # helper function of get_adjacency_list
+    # Checks if a node is in the grid
+    # Helper function of get_adjacency_list
     def node_in_grid_tup(self, pos: tuple[int, int]) -> bool:
         x, y = pos
         return not (x < 0 or x > self.x_size - 1 or y < 0 or y > self.y_size - 1)
 
-    # Does this need to be Euclidean distance for Theta*?
-    def straight_line_distance_tup(self, p1: tuple[int, int], p2: tuple[int, int]) -> float:
-        x1, y1 = p1
-        x2, y2 = p2
-        dx = abs(x2 - x1)
-        dy = abs(y2 - y1)
-        diagonal_counter = min(dx, dy)
-        straight_counter = abs(dx - dy)
-        sld = straight_counter + (math.sqrt(2) * diagonal_counter)
-        return sld
-
-    # Heuristic Function
-    def straight_line_distance(self, x1: int, y1: int, x2: int, y2: int) -> float:
-        deltaX = x2 - x1
-        deltaY = y2 - y1
-        diagonal_counter = min(abs(deltaX), abs(deltaY))
-        straight_counter = max(abs(deltaX), abs(deltaY)) - diagonal_counter
-        total_distance = straight_counter + (math.sqrt(2) * diagonal_counter)
-        return total_distance
-
-    # checks if there is an obstacle between two nodes
+    # Checks if there is line of sight between two nodes
     def line_of_sight(self, p0: tuple[int, int], p1: tuple[int, int]):
         f = 0
         sy = 1

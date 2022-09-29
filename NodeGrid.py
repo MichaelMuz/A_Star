@@ -1,6 +1,5 @@
 from tkinter import *
 
-import Grid
 from Grid import *
 
 
@@ -38,7 +37,7 @@ class Node:
         return (x0, y0), (x1, y1)
 
     def draw(self):
-        if self.master != None:
+        if self.master is not None:
             bcol = "black"
             if self.end:
                 col = Node.END_COLOR
@@ -146,8 +145,8 @@ class GuiGrid(Canvas):
         self.end = None
         self.grid = None
 
-    def bind_grid(self, grid: Grid):
-        self.grid = grid
+    def bind_grid(self, pathfinding_grid: Grid):
+        self.grid = pathfinding_grid
 
     def draw(self):
         for row in self.obstacles:
@@ -213,7 +212,8 @@ class GuiGrid(Canvas):
 
 def trace(pathfinding_grid: Grid, gui_grid: GuiGrid):
     current_vert = pathfinding_grid.goal_node
-    while current_vert.parent is not None and (current_vert.x_coordinate, current_vert.y_coordinate) != (pathfinding_grid.start_node.x_coordinate, pathfinding_grid.start_node.y_coordinate):
+    while current_vert.parent is not None and (current_vert.x_coordinate, current_vert.y_coordinate) != (
+            pathfinding_grid.start_node.x_coordinate, pathfinding_grid.start_node.y_coordinate):
         print((current_vert.x_coordinate, current_vert.y_coordinate))
         parent_node = current_vert.parent
         gui_grid.add_path((current_vert.x_coordinate, current_vert.y_coordinate),
@@ -249,13 +249,3 @@ def load_map(map_file: str) -> tuple[Tk, GuiGrid]:
 
 def run_app(app):
     app.mainloop()
-
-
-if __name__ == "__main__":
-    load_map("map1.txt")
-    # app = Tk()
-
-    # grid = Grid(app, 50, 100, 20, 8)
-    # grid.pack(pady=10, padx=10)
-
-    # app.mainloop()
