@@ -41,11 +41,11 @@ class Grid:
 
             # generate 2D array
             self.terrain = []
-            for outside_array in range(0, self.y_size + 1):
+            for column in range(0, self.x_size + 1):
                 temp = []
-                for inner_array in range(0, self.x_size + 1):
-                    h_value = self.straight_line_distance_tup((inner_array, outside_array), (end_col, end_row))
-                    temp.append(Node(inner_array, outside_array, h_value))
+                for row in range(0, self.y_size + 1):
+                    h_value = self.straight_line_distance_tup((column, row), (end_col, end_row))
+                    temp.append(Node(column, row, h_value))
                 self.terrain.append(temp)
 
 
@@ -98,7 +98,7 @@ class Grid:
     #helper function of get_adjacency_list
     def node_in_grid_tup(self, pos: tuple[int, int]) -> bool:
         x, y = pos
-        return not (x < 0 or x > self.x_size or y < 0 or y > self.y_size)
+        return not (x < 0 or x > self.x_size - 1 or y < 0 or y > self.y_size - 1)
 
     # Does this need to be Euclidean distance for Theta*?
     def straight_line_distance_tup(self, p1: tuple[int, int], p2: tuple[int, int]) -> float:
@@ -178,5 +178,7 @@ class Grid:
 
 if __name__ == "__main__":
     grid = Grid("map1.txt")
-    print(grid.get_all_neighbors(Node(3, 1, 0)))
+    print(grid.x_size)
+    print(grid.y_size)
+    print(grid.get_all_neighbors(Node(1, 3, 0)))
 
