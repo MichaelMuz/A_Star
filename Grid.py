@@ -2,19 +2,6 @@ from Node import Node
 import math
 
 
-# Does this need to be Euclidean distance for Theta*?
-# Heuristic function
-def straight_line_distance(p1: tuple[int, int], p2: tuple[int, int]) -> float:
-    x1, y1 = p1
-    x2, y2 = p2
-    dx = abs(x2 - x1)
-    dy = abs(y2 - y1)
-    diagonal_counter = min(dx, dy)
-    straight_counter = abs(dx - dy)
-    sld = straight_counter + (math.sqrt(2) * diagonal_counter)
-    return sld
-
-
 class Grid:
 
     # Takes map and saves dimensions, start node, end node, and list of obstacles
@@ -54,7 +41,7 @@ class Grid:
             for column in range(0, self.x_size + 1):
                 temp = []
                 for row in range(0, self.y_size + 1):
-                    h_value = straight_line_distance((column, row), (end_col, end_row))
+                    h_value = self.straight_line_distance((column, row), (end_col, end_row))
                     temp.append(Node(column, row, h_value))
                 self.terrain.append(temp)
 
@@ -147,6 +134,18 @@ class Grid:
                     return False
                 y0 = y0 + sy
         return True
+
+    # Does this need to be Euclidean distance for Theta*?
+    # Heuristic function
+    def straight_line_distance(self, p1: tuple[int, int], p2: tuple[int, int]) -> float:
+        x1, y1 = p1
+        x2, y2 = p2
+        dx = abs(x2 - x1)
+        dy = abs(y2 - y1)
+        diagonal_counter = min(dx, dy)
+        straight_counter = abs(dx - dy)
+        sld = straight_counter + (math.sqrt(2) * diagonal_counter)
+        return sld
 
 
 if __name__ == "__main__":

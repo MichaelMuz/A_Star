@@ -18,15 +18,15 @@ class Node:
     def change_h_value(self, new_h: float):
         self.h_value = new_h
 
-    def change_parent(self, new_parent: __class__):
+    def change_parent(self, new_parent: 'Node'):
         self.parent = new_parent
 
     # This overrides the "<" operator which priority queue uses to compare
-    def __lt__(self, other_node: __class__):
+    def __lt__(self, other_node: 'Node') -> bool:
         return self.get_f_value() < other_node.get_f_value()
 
     def print(self):
         return (self.x_coordinate, self.y_coordinate), self.h_value
 
-    def compare_nodes(self, other_node: __class__) -> bool:
+    def compare_nodes(self, other_node: 'Node') -> bool:
         return self.x_coordinate == other_node.x_coordinate and self.y_coordinate == other_node.y_coordinate
