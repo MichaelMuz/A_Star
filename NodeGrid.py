@@ -165,6 +165,8 @@ class GuiGrid(Canvas):
 
     def handle_mouse_click(self, event: Event):
         row, col = self.event_grid_coords(event)
+        if row > len(self.nodes) - 1 or col > len(self.nodes[0]) - 1:
+            return
         cell = self.nodes[row][col]
         if self.selected is not None:
             self.selected.toggle()

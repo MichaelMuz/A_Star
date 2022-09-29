@@ -4,13 +4,13 @@ import math
 
 class Grid:
 
-    #takes map and saves dimensions, start node, end node, and list of obstacles
+    # takes map and saves dimensions, start node, end node, and list of obstacles
     def __init__(self, map_file: str):
         with open(map_file) as f:
             start_col, start_row = list(map(int, f.readline().strip().split()))
             end_col, end_row = list(map(int, f.readline().strip().split()))
 
-            #the way the inputs are, the x and y coordinates are starting with 1 so we need to scale down by 1
+            # the way the inputs are, the x and y coordinates are starting with 1 so we need to scale down by 1
             start_col = start_col - 1
             start_row = start_row - 1
             end_col = end_col - 1
@@ -18,7 +18,7 @@ class Grid:
 
             # print("start col: " + str(start_col) + " start row: " + str(start_row))
             # print("end col: " + str(end_col) + " end row: " + str(end_row))
-            #size is given by number of cells accross by vertical so need to add one to each bc that many intersections
+            # size is given by number of cells accross by vertical so need to add one to each bc that many intersections
             cols, rows = list(map(int, f.readline().strip().split()))
             cols = cols + 1
             rows = rows + 1
@@ -34,15 +34,11 @@ class Grid:
                     self.obstacles.append((col - 1, row - 1))
             for x in range(-1, self.x_size + 1):
                 self.obstacles.append((x, -1))
-                print((x, -1))
                 self.obstacles.append((x, self.y_size - 1))
-                print((x, self.y_size))
             for y in range(-1, self.y_size + 1):
                 self.obstacles.append((-1, y))
-                print((-1, y))
                 self.obstacles.append((self.x_size - 1, y))
-                print((self.x_size, y))
-            
+
             # print("will make this many subarrays: " + str(self.y_size))
             # print("each subarray will be this length: " + str(self.x_size))
 
@@ -55,34 +51,25 @@ class Grid:
                     temp.append(Node(column, row, h_value))
                 self.terrain.append(temp)
 
-
             self.goal_node = self.terrain[end_col][end_row]
             self.goal_node.change_h_value(0)
             self.start_node = self.terrain[start_col][start_row]
-            # print("start node x val: " + str(self.start_node.x_coordinate) + " start node y val: " + str(self.start_node.y_coordinate))
-            # print("goal node x val: " + str(self.goal_node.x_coordinate) + " goal node y val: " + str(self.goal_node.y_coordinate))
-            
-    #returns a list of only the nodes that you can actually go to
+
+    # Returns a list of only the nodes that you can actually go to
     def get_adjacency_list(self, current_node: Node):
         possibilities = self.get_all_neighbors(current_node)
         actual_nodes = []
         for (x, y) in possibilities:
             in_sight = self.line_of_sight((current_node.x_coordinate, current_node.y_coordinate), (x, y))
             if in_sight:
-                # print(len(self.terrain))
                 actual_nodes.append(self.terrain[x][y])
-        # print("adjacency list for current_node: (" + str(current_node.x_coordinate) + "," + str(current_node.y_coordinate) + ")")
-        # for node in actual_nodes:
-            # print("xcoordinate : " + str(node.x_coordinate) + "ycoordinate : " + str(node.y_coordinate))
         return actual_nodes
 
-    
-    #checks if node is goal_node
+    # checks if node is goal_node
     def is_goal_node(self, node: Node):
         return node.compare_nodes(self.goal_node)
 
-    
-   #returns all 8 possible neighbors
+    # returns all 8 possible neighbors
     def get_all_neighbors(self, current_node: Node) -> list[tuple[int]]:
         cur_pos = (current_node.x_coordinate, current_node.y_coordinate)
         """
@@ -100,8 +87,8 @@ class Grid:
                                     [(a, b) for a in [-1, 0, 1] for b in [-1, 0, 1]])) if
                 x != cur_pos and self.node_in_grid_tup(x)]
 
-    #checks if a node is in the grid
-    #helper function of get_adjacency_list
+    # checks if a node is in the grid
+    # helper function of get_adjacency_list
     def node_in_grid_tup(self, pos: tuple[int, int]) -> bool:
         x, y = pos
         return not (x < 0 or x > self.x_size - 1 or y < 0 or y > self.y_size - 1)
@@ -115,10 +102,7 @@ class Grid:
         diagonal_counter = min(dx, dy)
         straight_counter = abs(dx - dy)
         sld = straight_counter + (math.sqrt(2) * diagonal_counter)
-        #print("straight line distance between " + str(x1) + "," + str(y1) + "and" + str(x2) + "," + str(y2) + "is: " + str(sld))
         return sld
-
-    
 
     # Heuristic Function
     def straight_line_distance(self, x1: int, y1: int, x2: int, y2: int) -> float:
@@ -127,10 +111,9 @@ class Grid:
         diagonal_counter = min(abs(deltaX), abs(deltaY))
         straight_counter = max(abs(deltaX), abs(deltaY)) - diagonal_counter
         total_distance = straight_counter + (math.sqrt(2) * diagonal_counter)
-        #print("straight line distance between " + str(x1) + "," + str(y1) + " and " + str(x2) + "," + str(y2) + " is: " + str(total_distance))
         return total_distance
 
-    #checks if there is an obstacle between two nodes
+    # checks if there is an obstacle between two nodes
     def line_of_sight(self, p0: tuple[int, int], p1: tuple[int, int]):
         f = 0
         sy = 1
@@ -177,9 +160,6 @@ class Grid:
                     return False
                 y0 = y0 + sy
         return True
-    
-   
-
 
 
 if __name__ == "__main__":
@@ -187,4 +167,3 @@ if __name__ == "__main__":
     print(grid.x_size)
     print(grid.y_size)
     print(grid.get_all_neighbors(Node(1, 3, 0)))
-
