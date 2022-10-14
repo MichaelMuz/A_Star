@@ -87,6 +87,9 @@ class Grid:
         x, y = pos
         return not (x < 0 or x > self.x_size - 1 or y < 0 or y > self.y_size - 1)
 
+    def line_of_sight_wrapped(self, node1: Node, node2: Node):
+        return self.line_of_sight((node1.x_coordinate, node1.y_coordinate), (node2.x_coordinate, node2.y_coordinate))
+    
     # Checks if there is line of sight between two nodes
     def line_of_sight(self, p0: tuple[int, int], p1: tuple[int, int]):
         f = 0
@@ -135,6 +138,8 @@ class Grid:
                 y0 = y0 + sy
         return True
 
+    def straight_line_distance_wrapped(self, point1: Node, point2: Node):
+        return self.straight_line_distance((point1.x_coordinate, point1.y_coordinate), (point2.x_coordinate, point2.y_coordinate))
     # Does this need to be Euclidean distance for Theta*?
     # Heuristic function
     def straight_line_distance(self, p1: tuple[int, int], p2: tuple[int, int]) -> float:
