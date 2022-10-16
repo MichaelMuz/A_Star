@@ -26,46 +26,49 @@ class PriorityQueue:
     def __init__(self):
         self.size = 0
         # Dummy node value
-        self.heap = [Node(0, 0, 0)]
+        self.queue = [Node(0, 0, 0)]
+
+    def qsize(self):
+        return self.size
 
     def is_leaf(self, pos: int) -> int:
         return pos * 2 > self.size
 
     def swap(self, p1: int, p2: int):
-        self.heap[p1], self.heap[p2] = self.heap[p2], self.heap[p1]
+        self.queue[p1], self.queue[p2] = self.queue[p2], self.queue[p1]
 
     def heapify(self, pos: int):
         if not self.is_leaf(pos):
-            if self.heap[left_child(pos)] < self.heap[pos]:
+            if self.queue[left_child(pos)] < self.queue[pos]:
                 self.swap(left_child(pos), pos)
                 self.heapify(left_child(pos))
-            elif self.heap[right_child(pos)] < self.heap[pos]:
+            elif self.queue[right_child(pos)] < self.queue[pos]:
                 self.swap(right_child(pos), pos)
                 self.heapify(right_child(pos))
 
     def put(self, val: Node):
         self.size += 1
         # Auto resize (append) if needed
-        if len(self.heap) <= self.size:
-            self.heap.append(val)
+        if len(self.queue) <= self.size:
+            self.queue.append(val)
         else:
-            self.heap[self.size] = val
+            self.queue[self.size] = val
 
         cpos = self.size
 
-        while self.heap[cpos] < self.heap[parent(cpos)]:
+        while self.queue[cpos] < self.queue[parent(cpos)]:
             self.swap(cpos, parent(cpos))
             cpos = parent(cpos)
 
     def get(self) -> Node:
-        ret = self.heap[1]
-        self.heap[1] = self.heap[self.size]
+        ret = self.queue[1]
+        self.queue[1] = self.queue[self.size]
         self.size -= 1
         self.heapify(1)
         return ret
 
     def print(self):
-        for i in self.heap:
+        for i in self.queue:
             print(i.print())
 
 
