@@ -112,7 +112,8 @@ class PathSegment:
 
 
 class GuiGrid(Canvas):
-    def __init__(self, master, row_num: int, col_num: int, cell_size: int, padding: int, values_label: Label, *args, **kwargs):
+    def __init__(self, master, row_num: int, col_num: int, cell_size: int, padding: int,
+                 values_label: Label, *args, **kwargs):
         Canvas.__init__(self, master, width=cell_size * col_num + padding * 2,
                         height=cell_size * row_num + padding * 2, *args, **kwargs)
 

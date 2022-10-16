@@ -9,7 +9,7 @@ class ThetaStar(PathfindingAlgorithm):
         self.grid = grid
         self.fringe = PriorityQueue()
         self.closed_set = {}
-    
+
     def run_algorithm(self):
         start_node = self.grid.start_node
 
@@ -32,7 +32,7 @@ class ThetaStar(PathfindingAlgorithm):
         return "not path found"
 
     def update_vertex(self, parent: Node, child: Node):
-        if(self.grid.line_of_sight_wrapped(parent.parent, child)):
+        if self.grid.line_of_sight_wrapped(parent.parent, child):
             straight_line_distance = self.grid.straight_line_distance_wrapped(child, parent.parent)
             if parent.parent.g_value + straight_line_distance < child.g_value:
                 child.change_g_value(parent.parent.g_value + straight_line_distance)
@@ -40,8 +40,6 @@ class ThetaStar(PathfindingAlgorithm):
                 if child in self.fringe.queue:
                     self.fringe.queue.remove(child)
                 self.fringe.put(child)
-
-
         else:
             straight_line_distance = self.grid.straight_line_distance(
                 (parent.x_coordinate, parent.y_coordinate), (child.x_coordinate, child.y_coordinate))

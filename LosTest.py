@@ -4,8 +4,6 @@ from NodeGrid import *
 
 def loadMap(mapFile):
     with open(mapFile) as f:
-        starty, startx = list(map(int, f.readline().strip().split()))
-        endy, endx = list(map(int, f.readline().strip().split()))
         cols, rows = list(map(int, f.readline().strip().split()))
 
         obstacles = []
