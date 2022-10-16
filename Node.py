@@ -27,11 +27,10 @@ class Node:
 
     def print(self):
         return \
-            f"""
-{self.x_coordinate, self.y_coordinate}
-h = {self.h_value}
-g = {self.g_value}
-f = {self.get_f_value()}"""
+f"""{self.x_coordinate, self.y_coordinate}
+h = {round(self.h_value, 3)}
+g = {round(self.g_value, 3)}
+f = {round(self.get_f_value(), 3)}"""
 
     def compare_nodes(self, other_node: 'Node') -> bool:
         return self.x_coordinate == other_node.x_coordinate and self.y_coordinate == other_node.y_coordinate
