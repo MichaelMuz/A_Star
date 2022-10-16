@@ -112,12 +112,13 @@ class PathSegment:
 
 
 class GuiGrid(Canvas):
-    def __init__(self, master, row_num, col_num, cell_size, padding, *args, **kwargs):
+    def __init__(self, master, row_num: int, col_num: int, cell_size: int, padding: int, values_label: Label, *args, **kwargs):
         Canvas.__init__(self, master, width=cell_size * col_num + padding * 2,
                         height=cell_size * row_num + padding * 2, *args, **kwargs)
 
         self.cellSize = cell_size
         self.padding = padding
+        self.vertex_values_label = values_label
 
         self.nodes = []
         for row in range(row_num + 1):
@@ -173,6 +174,7 @@ class GuiGrid(Canvas):
         self.selected = cell
         self.selected.toggle()
         self.selected.draw()
+        self.update_vertex_info(self.grid.terrain[col][row])
         print(self.grid.terrain[col][row].print())
 
     def fill_obstacle(self, row: int, col: int):
@@ -209,6 +211,9 @@ class GuiGrid(Canvas):
     def remove_path(self, p0, p1):
         self.paths = [x for x in self.paths if x.p0 != p0 and x.p1 != p1]
 
+    def update_vertex_info(self, node):
+        self.vertex_values_label.config(text=node.print())
+
 
 def trace(pathfinding_grid: Grid, gui_grid: GuiGrid):
     current_vert = pathfinding_grid.goal_node
@@ -232,8 +237,10 @@ def load_map(map_file: str) -> tuple[Tk, GuiGrid]:
 
         app = Tk()
 
-        gui_grid = GuiGrid(app, rows, cols, 20, 8, )
+        values_label = Label(app, text="Click on a node to start")
+        gui_grid = GuiGrid(app, rows, cols, 20, 8, values_label)
         gui_grid.pack(pady=10, padx=10)
+        values_label.pack()
 
         gui_grid.set_start(start_row - 1, start_col - 1)
         gui_grid.set_end(end_row - 1, end_col - 1)

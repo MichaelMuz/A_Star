@@ -1,8 +1,10 @@
 from queue import PriorityQueue
 from json.encoder import INFINITY
 from Node import Node
+from PathfindingAlgorithm import PathfindingAlgorithm
 
-class ThetaStar:
+
+class ThetaStar(PathfindingAlgorithm):
     def __init__(self, grid):
         self.grid = grid
         self.fringe = PriorityQueue()

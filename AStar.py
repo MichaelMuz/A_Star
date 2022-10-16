@@ -3,8 +3,10 @@ from Grid import Grid
 from Node import Node
 from queue import PriorityQueue
 
+from PathfindingAlgorithm import PathfindingAlgorithm
 
-class AStar:
+
+class AStar(PathfindingAlgorithm):
     def __init__(self, grid: Grid):
         self.grid = grid
         self.fringe = PriorityQueue()
