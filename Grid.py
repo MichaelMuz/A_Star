@@ -70,12 +70,14 @@ class Grid:
             Basically:
                 [(a, b) for a in [-1, 0, 1] for b in [-1, 0, 1] -> Get the cartesian product of [-1, 0, 1] x [-1, 0, 1]
                     This is the complete set of offsets a neighbor can be from some node
-                lambda x: tuple([x[i] + cur_pos[i] for i in range(len(x))]) -> for some tuple x, add it to cur_pos (element-wise)
+                lambda x: tuple([x[i] + cur_pos[i] for i in range(len(x))]) -> for some tuple x, add it to cur_pos 
+                (element-wise)
                 Combining the above two with `map` creates the list of the coordinates of all neighbors
             Then:
-                return [x for x in ... if x != cur_pos and self.node_in_grid_tup(x)] -> "..." is the above calculated set,
-                    now we filter out the current position (It is not a neighbor of itself) and positions that are outside
-                    the grid
+                return [x for x in ... if x != cur_pos and self.node_in_grid_tup(x)] -> "..." is the above calculated 
+                    set,
+                    now we filter out the current position (It is not a neighbor of itself) and positions that are 
+                    outside the grid
         """
         return [x for x in list(map(lambda x: tuple([int(x[i] + cur_pos[i]) for i in range(len(x))]),
                                     [(a, b) for a in [-1, 0, 1] for b in [-1, 0, 1]])) if
@@ -89,7 +91,7 @@ class Grid:
 
     def line_of_sight_wrapped(self, node1: Node, node2: Node):
         return self.line_of_sight((node1.x_coordinate, node1.y_coordinate), (node2.x_coordinate, node2.y_coordinate))
-    
+
     # Checks if there is line of sight between two nodes
     def line_of_sight(self, p0: tuple[int, int], p1: tuple[int, int]):
         f = 0
@@ -139,7 +141,9 @@ class Grid:
         return True
 
     def straight_line_distance_wrapped(self, point1: Node, point2: Node):
-        return self.straight_line_distance((point1.x_coordinate, point1.y_coordinate), (point2.x_coordinate, point2.y_coordinate))
+        return self.straight_line_distance((point1.x_coordinate, point1.y_coordinate),
+                                           (point2.x_coordinate, point2.y_coordinate))
+
     # Does this need to be Euclidean distance for Theta*?
     # Heuristic function
     def straight_line_distance(self, p1: tuple[int, int], p2: tuple[int, int]) -> float:

@@ -2,11 +2,24 @@ from typing import TypeVar, Generic
 
 from Node import Node
 
+
 # Priority Queue using min heap data structure implementation
 # Usage:
 #    To make a priority queue use `pq = PriorityQueue()`
 #    To get the next element use `.get()`
 #    To add an element use `.put([value])`
+
+def parent(pos: int) -> int:
+    return pos // 2
+
+
+def left_child(pos: int) -> int:
+    return 2 * pos
+
+
+def right_child(pos: int) -> int:
+    return 2 * pos + 1
+
 
 class PriorityQueue:
 
@@ -14,15 +27,6 @@ class PriorityQueue:
         self.size = 0
         # Dummy node value
         self.heap = [Node(0, 0, 0)]
-
-    def parent(self, pos: int) -> int:
-        return pos // 2
-
-    def left_child(self, pos: int) -> int:
-        return 2 * pos
-
-    def right_child(self, pos: int) -> int:
-        return 2 * pos + 1
 
     def is_leaf(self, pos: int) -> int:
         return pos * 2 > self.size
@@ -32,12 +36,12 @@ class PriorityQueue:
 
     def heapify(self, pos: int):
         if not self.is_leaf(pos):
-            if self.heap[self.left_child(pos)] < self.heap[pos]:
-                self.swap(self.left_child(pos), pos)
-                self.heapify(self.left_child(pos))
-            elif self.heap[self.right_child(pos)] < self.heap[pos]:
-                self.swap(self.right_child(pos), pos)
-                self.heapify(self.right_child(pos))
+            if self.heap[left_child(pos)] < self.heap[pos]:
+                self.swap(left_child(pos), pos)
+                self.heapify(left_child(pos))
+            elif self.heap[right_child(pos)] < self.heap[pos]:
+                self.swap(right_child(pos), pos)
+                self.heapify(right_child(pos))
 
     def put(self, val: Node):
         self.size += 1
@@ -49,9 +53,9 @@ class PriorityQueue:
 
         cpos = self.size
 
-        while self.heap[cpos] < self.heap[self.parent(cpos)]:
-            self.swap(cpos, self.parent(cpos))
-            cpos = self.parent(cpos)
+        while self.heap[cpos] < self.heap[parent(cpos)]:
+            self.swap(cpos, parent(cpos))
+            cpos = parent(cpos)
 
     def get(self) -> Node:
         ret = self.heap[1]
