@@ -97,8 +97,8 @@ def main(args):
     # print("====", numberOfZeroesStart, len(str(numberOfZeroesStart)), 10**(len(str(numberOfZeroesStart))))
     # print("====", numberOfZeroesEnd, len(str(numberOfZeroesEnd)), 10**(len(str(numberOfZeroesEnd))))
 
-    print(random_start(matrix, numberOfZeroesStart)[0], random_start(matrix, numberOfZeroesStart)[1])
-    print(random_end(matrix, numberOfZeroesEnd)[0], random_end(matrix, numberOfZeroesEnd)[1])
+    print(random_start(matrix, numberOfZeroesStart)[0] + 1, random_start(matrix, numberOfZeroesStart)[1])
+    print(random_end(matrix, numberOfZeroesEnd)[0], random_end(matrix, numberOfZeroesEnd)[1] + 1)
     print(args.Dimensions[1], args.Dimensions[0])
 
     # print("START: ", random_start(matrix, numberOfZeroesStart))
