@@ -65,7 +65,7 @@ def main(args):
 
     ## Generate empty matrix
     rows, cols = (5, 5)
-    matrix = [[0 for i in range(int(args.Dimensions[1]))] for j in range(int(args.Dimensions[0]) + 1)]
+    matrix = [[0 for i in range(int(args.Dimensions[1]))] for j in range(int(args.Dimensions[0]))]
 
     # ## Print empty matrix
     # for i in range(0, len(matrix), 1):
@@ -97,9 +97,9 @@ def main(args):
     # print("====", numberOfZeroesStart, len(str(numberOfZeroesStart)), 10**(len(str(numberOfZeroesStart))))
     # print("====", numberOfZeroesEnd, len(str(numberOfZeroesEnd)), 10**(len(str(numberOfZeroesEnd))))
 
-    print(args.Dimensions[0], args.Dimensions[1])
     print(random_start(matrix, numberOfZeroesStart)[0], random_start(matrix, numberOfZeroesStart)[1])
     print(random_end(matrix, numberOfZeroesEnd)[0], random_end(matrix, numberOfZeroesEnd)[1])
+    print(args.Dimensions[1], args.Dimensions[0])
 
     # print("START: ", random_start(matrix, numberOfZeroesStart))
     # print("END: ", random_end(matrix, numberOfZeroesEnd))
