@@ -5,7 +5,7 @@ import math
 class Grid:
 
     # Takes map and saves dimensions, start node, end node, and list of obstacles
-    def __init__(self, map_file: str):
+    def __init__(self, map_file: str, use_theta_heuristic: bool = False):
         with open(map_file) as f:
             start_col, start_row = list(map(int, f.readline().strip().split()))
             end_col, end_row = list(map(int, f.readline().strip().split()))
@@ -41,7 +41,10 @@ class Grid:
             for column in range(0, self.x_size + 1):
                 temp = []
                 for row in range(0, self.y_size + 1):
-                    h_value = self.straight_line_distance((column, row), (end_col, end_row))
+                    if use_theta_heuristic:
+                        h_value = self.euclidian_distance((column, row), (end_col, end_row))
+                    else:
+                        h_value = self.straight_line_distance((column, row), (end_col, end_row))
                     temp.append(Node(column, row, h_value))
                 self.terrain.append(temp)
 
@@ -155,6 +158,15 @@ class Grid:
         straight_counter = abs(dx - dy)
         sld = straight_counter + (math.sqrt(2) * diagonal_counter)
         return sld
+
+    def euclidian_distance_wrapped(self, point1: Node, point2: Node):
+        return self.euclidian_distance((point1.x_coordinate, point1.y_coordinate),
+                                       (point2.x_coordinate, point2.y_coordinate))
+
+    def euclidian_distance(self, p1: tuple[int, int], p2: tuple[int, int]) -> float:
+        x1, y1 = p1
+        x2, y2 = p2
+        return math.sqrt((x1 - x2) ** 2 + (y1 - y2) ** 2)
 
 
 if __name__ == "__main__":
