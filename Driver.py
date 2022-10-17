@@ -6,6 +6,7 @@ from NodeGrid import load_map as load_map_gui, trace
 from NodeGrid import run_app
 from PathfindingAlgorithm import PathfindingAlgorithm
 from ThetaStar import ThetaStar
+import time
 
 # This file runs the pathfinding algorithm
 # To run pathfinding on a map file "file.txt", use the command:
@@ -29,7 +30,10 @@ if __name__ == "__main__":
     else:
         algorithm = AStar(grid)
 
+    start = time.time()
     algorithm.run_algorithm()
+    end = time.time()
+    print("TIME TAKEN:", float(end - start))
     gui_grid.bind_grid(grid)
     trace(grid, gui_grid)
     run_app(app)
