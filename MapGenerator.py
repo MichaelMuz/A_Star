@@ -3,6 +3,14 @@ import random
 
 # Generates maps
 
+def random_start_new(matrix):
+    value = random.random()
+    # print(len(matrix), len(matrix[0]))
+    rows = int(value * len(matrix))
+    cols = int(value * len(matrix[0]))
+    arr = [rows, cols]
+    return arr
+
 def random_end(matrix, numberOfZeroesEnd):
     ## Select a random start
     tmp = numberOfZeroesEnd
@@ -97,8 +105,10 @@ def main(args):
     # print("====", numberOfZeroesStart, len(str(numberOfZeroesStart)), 10**(len(str(numberOfZeroesStart))))
     # print("====", numberOfZeroesEnd, len(str(numberOfZeroesEnd)), 10**(len(str(numberOfZeroesEnd))))
 
-    print(random_start(matrix, numberOfZeroesStart)[0] + 1, random_start(matrix, numberOfZeroesStart)[1])
-    print(random_end(matrix, numberOfZeroesEnd)[0], random_end(matrix, numberOfZeroesEnd)[1] + 1)
+    # print(random_start(matrix, numberOfZeroesStart)[0] + 1, random_start(matrix, numberOfZeroesStart)[1] + 1)
+    # print(random_end(matrix, numberOfZeroesEnd)[0] + 1, random_end(matrix, numberOfZeroesEnd)[1] + 1)
+    print(random_start_new(matrix)[1], random_start_new(matrix)[0])
+    print(random_start_new(matrix)[1], random_start_new(matrix)[0])
     print(args.Dimensions[1], args.Dimensions[0])
 
     # print("START: ", random_start(matrix, numberOfZeroesStart))
@@ -110,6 +120,8 @@ def main(args):
     for i in range(len(rez)):
         for j in range(len(rez[i])):
             print(i+1, j+1, rez[i][j])
+
+    # print(random_start_new(matrix))
 
     # print("CHANCE: ", 1 - (float(numberOfZeroesStart / 10**(len(str(numberOfZeroesStart))))))
 
